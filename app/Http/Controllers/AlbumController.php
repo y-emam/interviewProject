@@ -32,13 +32,11 @@ class AlbumController extends Controller
             'name' => 'required|string|max:255',
         ]);
 
-        // Create a new album
         Album::create([
             'name' => $request->name,
         ]);
         
 
-        // Redirect back to the create form with a success message
         return redirect()->route('albums')->with('success', 'Album created successfully.');
     }
 }

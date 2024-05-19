@@ -90,7 +90,7 @@
         </div>
         @endif
 
-        <form action="/photo/create" method="POST">
+        <form action="{{ route('photos.create.post') }}" method="POST">
             @csrf
             <div class="form-group">
                 <label for="name">Photo Name</label>
@@ -98,6 +98,8 @@
                     placeholder="Enter the Photo Name">
                 <label for="name">Photo</label>
                 <input type="file" name="img" id="img" class="form-control" required>
+                <label for="albumId"></label>
+                <input type="hidden" name="albumId" class="form-control" value='{{$albumId}}'>
             </div>
             <button type="submit" class="btn btn-primary">Add Photo</button>
         </form>

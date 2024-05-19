@@ -24,7 +24,7 @@
     @else
     <p>No photos found for this album.</p>
     @endif
-    <!-- add a button to add image -->
+    <a href="{{ route('photos.create.get', ['albumId' => $album['id']]) }}">Add an Image</a>
     <!-- add a button on every image to be able to delete it -->
     <!-- add a button to delete the whole album with all images -->
     <!-- add a button to delete the whole album but move photos to another album -->
