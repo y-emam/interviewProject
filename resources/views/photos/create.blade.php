@@ -90,16 +90,16 @@
         </div>
         @endif
 
-        <form action="{{ route('photos.create.post') }}" method="POST">
+        <form action="{{ route('photos.create.post') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
                 <label for="name">Photo Name</label>
                 <input type="text" name="name" id="name" class="form-control" required
                     placeholder="Enter the Photo Name">
-                <label for="name">Photo</label>
+                <label for="img">Photo</label>
                 <input type="file" name="img" id="img" class="form-control" required>
                 <label for="albumId"></label>
-                <input type="hidden" name="albumId" class="form-control" value='{{$albumId}}'>
+                <input type="hidden" name="albumId" id="albumId" class="form-control" value='{{$albumId}}'>
             </div>
             <button type="submit" class="btn btn-primary">Add Photo</button>
         </form>

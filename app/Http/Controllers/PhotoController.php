@@ -26,8 +26,12 @@ class PhotoController
         if ($request->file('img')) {
             $path = $request->file('img')->store('images', 'public');
 
-            dd($path);
             // You can save the $path to the database if needed
+            Photo::create([
+                'name' => $request->name,
+                'path' => $path,
+                'album_id' => $request->albumId
+            ]);
 
             // return back()->with('success', 'Image uploaded successfully.')->with('image', $path);
             return redirect()->route('albums', ['albumId' => $request['albumId']]);
