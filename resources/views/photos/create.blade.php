@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Create Album</title>
+    <title>Add Photo</title>
     <style>
     body {
         font-family: Arial, sans-serif;
@@ -72,7 +72,7 @@
 
 <body>
     <div class="container">
-        <h1>Create New Album</h1>
+        <h1>Add New Photo</h1>
 
         @if (session('success'))
         <div class="alert alert-success">
@@ -90,14 +90,16 @@
         </div>
         @endif
 
-        <form action="/albums/create" method="POST">
+        <form action="/photo/create" method="POST">
             @csrf
             <div class="form-group">
-                <label for="name">Album Name</label>
+                <label for="name">Photo Name</label>
                 <input type="text" name="name" id="name" class="form-control" required
-                    placeholder="Enter the Album Name">
+                    placeholder="Enter the Photo Name">
+                <label for="name">Photo</label>
+                <input type="file" name="img" id="img" class="form-control" required>
             </div>
-            <button type="submit" class="btn btn-primary">Create Album</button>
+            <button type="submit" class="btn btn-primary">Add Photo</button>
         </form>
     </div>
 </body>
