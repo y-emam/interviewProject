@@ -73,6 +73,20 @@
     a:hover {
         color: #007bff;
     }
+
+    /* Style for the last anchor */
+    .last-anchor {
+        color: #fff;
+        background-color: #007bff;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .last-anchor:hover {
+        background-color: #0056b3;
+    }
     </style>
 </head>
 
@@ -91,6 +105,9 @@
     @else
     <p>No albums found.</p>
     @endif
+
+    <!-- Last anchor with class "last-anchor" -->
+    <a href="{{ route('albums.create.get') }}" class="last-anchor">Create New Album</a>
 </body>
 
 </html>

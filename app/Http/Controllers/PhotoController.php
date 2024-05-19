@@ -17,7 +17,7 @@ class PhotoController
     public function add(Request $request) {    
         $request->validate([
             'name' => 'required|string|max:255',
-            'img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:10240',
             'albumId' => 'required|uuid'
         ]);
 
