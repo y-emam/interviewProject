@@ -18,7 +18,7 @@
     @if ($photos->count() > 0)
     <div class="photo-gallery">
         @foreach ($photos as $photo)
-        <img src="{{ asset($photo->path) }}" alt="{{ $photo->name }}">
+        <img src="{{ asset('storage/images/' . $photo->path) }}" alt="{{ $photo->name }}">
         @endforeach
     </div>
     @else

@@ -26,10 +26,12 @@ class PhotoController
         if ($request->file('img')) {
             $path = $request->file('img')->store('images', 'public');
 
+            $filename = basename($path);
+
             // You can save the $path to the database if needed
             Photo::create([
                 'name' => $request->name,
-                'path' => $path,
+                'path' => $filename,
                 'album_id' => $request->albumId
             ]);
 
