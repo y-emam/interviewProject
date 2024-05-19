@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/albums', [AlbumController::class, 'index'])->name('albums'); // shows all albums
-Route::get('/albums/:id'); // show all photos in an album, todo: know how to make query parameter
+Route::get('/albums/:id')->name('albums.show'); // show all photos in an album, todo: know how to make query parameter
 Route::get('/albums/create', function () { return view('albums.create'); })->name('albums.create.get'); // a form to create new album
 // Route::get('/edit',)
 

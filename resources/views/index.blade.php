@@ -5,26 +5,93 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Albums</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 20px;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: auto;
+    }
+
+    h1 {
+        color: #333;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    li {
+        background-color: #fff;
+        margin-bottom: 10px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        /* Add border around each album item */
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    li:hover {
+        background-color: #f0f0f0;
+    }
+
+    .album-list li a {
+        color: #333;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .album-list li a:hover {
+        text-decoration: underline;
+    }
+
+    /* Album details styles */
+    .album-details {
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .album-details h2 {
+        margin-top: 0;
+    }
+
+    a {
+        text-decoration: none;
+        color: #333;
+        transition: color 0.3s ease;
+    }
+
+    a:hover {
+        color: #007bff;
+    }
+    </style>
 </head>
 
 <body>
-    <div class="container mt-5">
-        <h1 class="mb-4">Albums</h1>
-        <div class="row">
-            @foreach ($albums as $album)
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="{{ $album->cover_image }}" class="card-img-top" alt="{{ $album->title }}">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ $album->title }}</h5>
-                        <p class="card-text">{{ $album->artist }}</p>
-                    </div>
-                </div>
-            </div>
-            @endforeach
-        </div>
-    </div>
+    <h1>Albums</h1>
+
+    @if ($albums->count() > 0)
+    <ul>
+        @foreach ($albums as $album)
+
+        <a href="{{ route('albums.show', ['album' => $album->id]) }}">
+            <li>{{ $album->name }}</li>
+        </a>
+
+        @endforeach
+    </ul>
+    @else
+    <p>No albums found.</p>
+    @endif
 </body>
 
 </html>
