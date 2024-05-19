@@ -9,7 +9,6 @@ class Album extends Model
 {
     use HasFactory;
 
-    // public function getAll() {
-    //     $allPosts = 
-    // }
+    protected $fillable = ['name'];
+
 }
