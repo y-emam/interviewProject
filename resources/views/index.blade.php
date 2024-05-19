@@ -82,8 +82,7 @@
     @if ($albums->count() > 0)
     <ul>
         @foreach ($albums as $album)
-
-        <a href="{{ route('albums.show', ['album' => $album->id]) }}">
+        <a href="{{ route('albums', ['albumId' => $album->id]) }}">
             <li>{{ $album->name }}</li>
         </a>
 

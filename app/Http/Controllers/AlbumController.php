@@ -3,16 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Models\Album;
+use App\Models\Photo;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
 class AlbumController extends Controller
 {
 
-    public function index() {
-        $allAlbums = Album::all();
+    public function index(Request $request) {
+        if ($request->has('albumId')) {
+            $albumId = $request->query('albumId');
 
-        return view('index', ['albums' => $allAlbums]);
+            $album = Album::find($albumId)->attributesToArray();
+
+            $photos = Photo::where('album_id', $albumId)->get();
+
+            return view('albums.show', ['album' => $album, 'photos' => $photos]);
+        }else {
+            $allAlbums = Album::all();
+
+            return view('index', ['albums' => $allAlbums]);
+        }
+        
     }
 
     public function create(Request $request) {
