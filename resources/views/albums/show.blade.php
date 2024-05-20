@@ -152,7 +152,12 @@
             @foreach ($photos as $photo)
             <div class="photo-container">
                 <img src="{{ asset('storage/images/' . $photo->path) }}" alt="{{ $photo->name }}">
-
+                <form action="{{ route('photos.delete') }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <input type="hidden" name="id" value="{{ $photo->id }}">
+                    <button type="submit" class="delete-button-small">Delete</button>
+                </form>
             </div>
             @endforeach
         </div>

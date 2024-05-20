@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Photo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PhotoController
 {
@@ -39,5 +40,27 @@ class PhotoController
 
         return back()->with('error', 'Failed to upload image.');
         
+    }
+
+    public function delete(Request $request) {
+        $request->validate([
+            'id' => 'required|uuid',
+        ]);
+
+        $photoId = $request->id;
+
+        $photo = Photo::where('id', $photoId)->get()->toArray()[0];
+
+        // delete image from local files
+        $filepath = 'public/images/'.$photo['path'];
+
+        if (Storage::exists($filepath)) {
+            Storage::delete($filepath);
+        }
+
+        // delete photos from database
+        Photo::where('id', $photoId)->delete();
+
+        return back()->with('success', 'Deleted Photo Successfully.');
     }
 }
