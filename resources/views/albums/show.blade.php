@@ -78,10 +78,30 @@
         <p>No photos found for this album.</p>
         @endif
         <a href="{{ route('photos.create.get', ['albumId' => $album['id']]) }}" class="add-image-link">Add an Image</a>
-
         <!-- add a button on every image to be able to delete it -->
         <!-- add a button to delete the whole album with all images -->
+        <form action="{{ route('albums.all.delete') }}" method="POST">
+            @csrf
+            <input type="hidden" name="albumId" id="albumId" class="form-control" value='{{$album['id']}}'>
+            @method('DELETE')
+            <button type="submit" class="delete-button">Delete Album and Photos</button>
+        </form>
         <!-- add a button to delete the whole album but move photos to another album -->
+        <form action="{{ route('albums.only.delete') }}" method="POST">
+            @csrf
+            @method('DELETE')
+            <select name="newAlbumId" class="dropdown">
+                @foreach ($allAlbums as $albumItr)
+
+                @if ($albumItr->id != $album['id'])
+                <option value="{{ $albumItr->id }}">{{ $albumItr->name }}</option>
+                @endif
+
+                @endforeach
+            </select>
+            <input type="hidden" name="oldAlbumId" id="albumId" class="form-control" value='{{$album['id']}}'>
+            <button type="submit" class="delete-button">Delete Album and move Photos</button>
+        </form>
     </div>
 </body>
 

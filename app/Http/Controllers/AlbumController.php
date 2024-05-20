@@ -6,6 +6,7 @@ use App\Models\Album;
 use App\Models\Photo;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class AlbumController extends Controller
 {
@@ -18,7 +19,9 @@ class AlbumController extends Controller
 
             $photos = Photo::where('album_id', $albumId)->get();
 
-            return view('albums.show', ['album' => $album, 'photos' => $photos]);
+            $allAlbums = Album::all();
+
+            return view('albums.show', ['album' => $album, 'photos' => $photos, 'allAlbums' => $allAlbums]);
         }else {
             $allAlbums = Album::all();
 
@@ -36,6 +39,53 @@ class AlbumController extends Controller
             'name' => $request->name,
         ]);
         
+
+        return redirect()->route('albums')->with('success', 'Album created successfully.');
+    }
+
+    public function deleteAlbumAndPhotos(Request $request) {
+        $request->validate([
+            'albumId' => 'required|uuid',
+        ]);
+    
+        $albumId = $request->albumId;
+    
+        $photosArr = Photo::where('album_id', $albumId)->get()->toArray();
+
+        // delete images from local files
+        foreach ($photosArr as $photo) {
+
+            $filepath = 'public/images/'.$photo['path'];
+            if (Storage::exists($filepath)) {
+                Storage::delete($filepath);
+            }
+        }
+
+        // delete photos from database
+        Photo::where('album_id', $albumId)->delete();
+
+        // delete Album from database
+        Album::where('id', $albumId)->delete();
+
+        return redirect()->route('albums')->with('success', 'Album created successfully.');
+    }
+
+    public function deleteOnlyAlbum(Request $request) {
+        $request->validate([
+            'oldAlbumId' => 'required|uuid',
+            'newAlbumId' => 'required|uuid',
+        ]);
+
+        $oldAlbumId = $request->oldAlbumId;
+        $newAlbumId = $request->newAlbumId;
+
+        if ($oldAlbumId == $newAlbumId) {
+            return back()->with('error', 'Failed to Delete Images.');
+        }
+
+        Photo::where('album_id', $oldAlbumId)->update(['album_id' => $newAlbumId]);
+
+        Album::where('id', $oldAlbumId)->delete();
 
         return redirect()->route('albums')->with('success', 'Album created successfully.');
     }

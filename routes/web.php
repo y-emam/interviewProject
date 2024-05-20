@@ -15,5 +15,5 @@ Route::post('/photos/create', [PhotoController::class, 'add'])->name('photos.cre
 
 
 // Route::delete('/delete/photo', ); // deletes a photo from an album
-// Route::delete('/deleteAllAlbum', );
-// Route::delete('/deleteOnlyAlbum', );
+Route::delete('/deleteAllAlbum', [AlbumController::class, 'deleteAlbumAndPhotos'])->name('albums.all.delete');
+Route::delete('/deleteOnlyAlbum', [AlbumController::class, 'deleteOnlyAlbum'])->name('albums.only.delete');
