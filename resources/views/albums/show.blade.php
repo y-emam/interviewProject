@@ -8,55 +8,132 @@
     <style>
     body {
         font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
         margin: 0;
         padding: 0;
-        background-color: #f2f2f2;
     }
 
     .container {
-        max-width: 800px;
-        margin: 0 auto;
+        max-width: 900px;
+        margin: 20px auto;
+        background: #fff;
         padding: 20px;
-    }
-
-    .album-details {
-        background-color: #fff;
-        padding: 20px;
-        margin-bottom: 20px;
-        border-radius: 5px;
+        border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
 
+    .album-details {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
     .album-details h1 {
+        font-size: 2.5em;
         margin: 0;
+    }
+
+    h2 {
+        font-size: 1.8em;
+        margin-bottom: 10px;
         color: #333;
     }
 
     .photo-gallery {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
     }
 
     .photo-gallery img {
-        max-width: 100%;
-        height: auto;
-        border-radius: 5px;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 4px;
     }
 
-    .add-image-link {
+    .add-image-link,
+    .delete-button {
         display: inline-block;
-        background-color: #007bff;
-        color: #fff;
         padding: 10px 20px;
+        margin: 10px 0;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 4px;
         text-decoration: none;
-        border-radius: 5px;
-        margin-top: 20px;
+        cursor: pointer;
     }
 
-    .add-image-link:hover {
+    .delete-button {
+        background-color: #dc3545;
+    }
+
+    .add-image-link:hover,
+    .delete-button:hover {
         background-color: #0056b3;
+    }
+
+    .delete-button:hover {
+        background-color: #c82333;
+    }
+
+    .form-control,
+    .dropdown {
+        padding: 10px;
+        width: 100%;
+        max-width: 300px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    form {
+        margin-bottom: 20px;
+    }
+
+    p {
+        font-size: 1.2em;
+        color: #666;
+    }
+
+    .delete-button-small {
+        display: block;
+        margin-top: 5px;
+        padding: 5px 10px;
+        font-size: 0.8em;
+        background-color: #dc3545;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .delete-button-small:hover {
+        background-color: #c82333;
+    }
+
+    .photo-container {
+        position: relative;
+    }
+
+    .photo-container img {
+        display: block;
+    }
+
+    .photo-container form {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+    }
+
+    a.back-link {
+        display: inline-block;
+        margin-bottom: 20px;
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    a.back-link:hover {
+        text-decoration: underline;
     }
     </style>
 </head>
@@ -67,41 +144,44 @@
             <h1>{{ $album['name'] }}</h1>
         </div>
 
+        <a href="{{ route("albums") }}" class="back-link">Back</a>
+
         <h2>Photos</h2>
         @if ($photos->count() > 0)
         <div class="photo-gallery">
             @foreach ($photos as $photo)
-            <img src="{{ asset('storage/images/' . $photo->path) }}" alt="{{ $photo->name }}">
+            <div class="photo-container">
+                <img src="{{ asset('storage/images/' . $photo->path) }}" alt="{{ $photo->name }}">
+
+            </div>
             @endforeach
         </div>
         @else
         <p>No photos found for this album.</p>
         @endif
         <a href="{{ route('photos.create.get', ['albumId' => $album['id']]) }}" class="add-image-link">Add an Image</a>
-        <!-- add a button on every image to be able to delete it -->
-        <!-- add a button to delete the whole album with all images -->
+
         <form action="{{ route('albums.all.delete') }}" method="POST">
             @csrf
-            <input type="hidden" name="albumId" id="albumId" class="form-control" value='{{$album['id']}}'>
             @method('DELETE')
+            <input type="hidden" name="albumId" value="{{ $album['id'] }}">
             <button type="submit" class="delete-button">Delete Album and Photos</button>
         </form>
-        <!-- add a button to delete the whole album but move photos to another album -->
+
         <form action="{{ route('albums.only.delete') }}" method="POST">
             @csrf
             @method('DELETE')
             <select name="newAlbumId" class="dropdown">
                 @foreach ($allAlbums as $albumItr)
-
                 @if ($albumItr->id != $album['id'])
                 <option value="{{ $albumItr->id }}">{{ $albumItr->name }}</option>
                 @endif
-
                 @endforeach
             </select>
-            <input type="hidden" name="oldAlbumId" id="albumId" class="form-control" value='{{$album['id']}}'>
-            <button type="submit" class="delete-button">Delete Album and move Photos</button>
+            <input type="hidden" name="oldAlbumId" value="{{ $album['id'] }}">
+            <button type="submit" class="delete-button">Delete Album and Move Photos</button>
         </form>
+        <!-- add a button on every image to be able to delete it -->
     </div>
 </body>
 
