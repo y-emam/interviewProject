@@ -45,8 +45,8 @@
     }
 
     .photo-gallery img {
-        width: 100px;
-        height: 100px;
+        max-width: 700px;
+        max-height: 700px;
         object-fit: cover;
         border-radius: 4px;
     }
@@ -66,6 +66,7 @@
 
     .delete-button {
         background-color: #dc3545;
+        color: #fff;
     }
 
     .add-image-link:hover,
@@ -105,6 +106,7 @@
         border: none;
         border-radius: 4px;
         cursor: pointer;
+        color: white
     }
 
     .delete-button-small:hover {
